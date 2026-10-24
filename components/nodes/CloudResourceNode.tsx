@@ -34,10 +34,10 @@ const RESOURCE_ICONS: Record<string, Icon> = {
 };
 
 const CONTAINERS: Record<string, string> = {
-  region: "border-slate-400 dark:border-slate-500",
-  vpc: "border-orange-400 dark:border-orange-500/60",
-  "subnet-public": "border-emerald-400 dark:border-emerald-500/60",
-  "subnet-private": "border-sky-400 dark:border-sky-500/60",
+  region: "border-outline",
+  vpc: "border-orange-500/60",
+  "subnet-public": "border-emerald-500/60",
+  "subnet-private": "border-cyan-500/60",
 };
 
 function CloudResourceNodeImpl({ data, selected }: NodeProps) {
@@ -48,11 +48,11 @@ function CloudResourceNodeImpl({ data, selected }: NodeProps) {
   if (containerStyle) {
     return (
       <div
-        className={`h-full w-full rounded-lg border-2 border-dashed bg-white/40 dark:bg-slate-800/30 ${containerStyle} ${ring}`}
+        className={`inner-glow h-full w-full rounded-lg border-2 border-dashed bg-surface-container/30 backdrop-blur-sm ${containerStyle} ${ring}`}
       >
         <Resizer selected={selected} minWidth={180} minHeight={130} />
         <NodeHandles />
-        <div className="truncate px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+        <div className="truncate px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-on-surface-variant">
           {d.label}
         </div>
       </div>
@@ -63,14 +63,14 @@ function CloudResourceNodeImpl({ data, selected }: NodeProps) {
 
   return (
     <div
-      className={`flex h-full w-full flex-col items-center justify-center gap-1 rounded-lg border border-orange-300 bg-white p-2 shadow-sm dark:border-orange-500/50 dark:bg-slate-800 ${ring}`}
+      className={`inner-glow flex h-full w-full flex-col items-center justify-center gap-1 rounded-lg border border-outline-variant bg-surface-container p-2 shadow-sm transition-all hover:border-orange-500/40 ${ring}`}
     >
       <Resizer selected={selected} minWidth={96} minHeight={92} />
       <NodeHandles />
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-orange-50 text-orange-600 dark:bg-orange-500/15 dark:text-orange-300">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-orange-500/30 bg-orange-500/10 text-orange-400">
         <Icon size={20} stroke={1.7} />
       </span>
-      <span className="truncate text-center text-[11px] font-medium text-slate-700 dark:text-slate-200">
+      <span className="truncate text-center text-[11px] font-semibold text-on-surface">
         {d.label}
       </span>
     </div>

@@ -33,15 +33,17 @@ export function TypeWizard() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">
-        Que tipo de diagrama vai criar?
-      </h1>
-      <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-        Escolha um tipo abaixo — o diagrama é criado na hora.
-      </p>
+    <div className="ambient-mesh">
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight text-on-surface md:text-4xl">
+          Que tipo de diagrama vai criar?
+        </h1>
+        <p className="mt-2 text-base text-on-surface-variant">
+          Escolha um tipo abaixo — o diagrama é criado na hora.
+        </p>
+      </header>
 
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {DIAGRAM_TYPE_LIST.map((t) => {
           const Icon = t.icon;
           const isCreating = creatingId === t.id;
@@ -51,30 +53,40 @@ export function TypeWizard() {
               type="button"
               onClick={() => handleCreate(t.id)}
               disabled={creatingId !== null}
-              className={`relative flex flex-col rounded-xl border border-slate-200 bg-white p-4 text-left transition-all hover:border-slate-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700 ${
-                creatingId && !isCreating ? "opacity-50" : ""
-              } ${creatingId ? "cursor-default" : "cursor-pointer"}`}
+              className={`group glass inner-glow relative flex flex-col rounded-2xl p-5 text-left transition-all duration-300 ${
+                creatingId && !isCreating ? "opacity-40" : ""
+              } ${
+                creatingId
+                  ? "cursor-default"
+                  : "cursor-pointer hover:scale-[1.02] hover:border-electric/40"
+              }`}
             >
+              <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-electric/8 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
               <div
-                className={`flex h-10 w-10 items-center justify-center rounded-lg ${t.iconWrap}`}
+                className={`relative z-10 flex h-12 w-12 items-center justify-center rounded-xl ${t.iconWrap}`}
               >
                 <Icon size={22} stroke={1.8} />
               </div>
-              <p className="mt-3 font-medium text-slate-900 dark:text-slate-100">
+
+              <h3 className="relative z-10 mt-4 text-lg font-bold text-on-surface">
                 {t.label}
-              </p>
-              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+              </h3>
+              <p className="relative z-10 mt-1 text-sm text-on-surface-variant">
                 {t.description}
               </p>
-              <p className="mt-3 border-t border-slate-100 pt-2 text-xs text-slate-400 dark:border-slate-800 dark:text-slate-500">
-                <span className="font-medium text-slate-500 dark:text-slate-400">
-                  Conexões:
-                </span>{" "}
-                {t.connectionRule}
-              </p>
+
+              <div className="relative z-10 mt-4 border-t border-outline-variant pt-3">
+                <p className="font-mono text-[10px] uppercase tracking-wider text-on-surface-muted">
+                  Regra de conexão
+                </p>
+                <p className="mt-1 text-xs text-on-surface-variant">
+                  {t.connectionRule}
+                </p>
+              </div>
 
               {isCreating && (
-                <span className="absolute inset-0 flex items-center justify-center gap-2 rounded-xl bg-white/80 text-sm font-medium text-indigo-700 dark:bg-slate-900/80 dark:text-indigo-300">
+                <span className="absolute inset-0 z-20 flex items-center justify-center gap-2 rounded-2xl bg-surface-glass-strong text-sm font-semibold text-electric backdrop-blur">
                   <IconLoader2 size={16} className="animate-spin" />
                   Criando...
                 </span>
@@ -85,10 +97,12 @@ export function TypeWizard() {
       </div>
 
       {error && (
-        <p className="mt-4 text-sm text-red-600 dark:text-red-400">{error}</p>
+        <p className="mt-4 rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-400">
+          {error}
+        </p>
       )}
 
-      <div className="mt-6 border-t border-slate-200 pt-5 dark:border-slate-800">
+      <div className="mt-8 border-t border-outline-variant pt-5">
         <ButtonLink href="/dashboard" variant="secondary">
           <IconArrowLeft size={16} stroke={2} />
           Voltar

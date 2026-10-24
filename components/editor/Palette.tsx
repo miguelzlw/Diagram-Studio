@@ -12,25 +12,27 @@ export function Palette({ diagramType }: { diagramType: string }) {
   }
 
   return (
-    <aside className="w-52 shrink-0 overflow-y-auto border-r border-slate-200 bg-white p-3 dark:border-slate-800 dark:bg-slate-900">
-      <p className="px-1 text-xs font-semibold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-        Elementos
-      </p>
-      <p className="mt-1 px-1 text-xs text-slate-400 dark:text-slate-500">
-        Arraste para o canvas.
-      </p>
+    <aside className="flex w-56 shrink-0 flex-col overflow-y-auto border-r border-outline-variant bg-surface-glass p-3 backdrop-blur-md">
+      <div className="mb-3 px-2">
+        <p className="font-mono text-[10px] font-semibold uppercase tracking-wider text-on-surface-muted">
+          Elementos
+        </p>
+        <p className="mt-1 text-xs text-on-surface-variant">
+          Arraste para o canvas.
+        </p>
+      </div>
 
-      <div className="mt-3 flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1.5">
         {config?.paletteItems.map((item) => (
           <div
             key={item.nodeType}
             draggable
             onDragStart={(e) => onDragStart(e, item)}
-            className="flex cursor-grab items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-sm text-slate-700 transition-colors hover:border-indigo-300 hover:bg-indigo-50 active:cursor-grabbing dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-indigo-500/50 dark:hover:bg-indigo-500/10"
+            className="group flex cursor-grab items-center gap-2 rounded-lg border border-outline-variant bg-surface-container px-3 py-2 text-sm text-on-surface transition-all hover:scale-[1.02] hover:border-electric/40 hover:bg-electric/5 active:cursor-grabbing"
           >
             <IconGripVertical
-              size={15}
-              className="text-slate-300 dark:text-slate-600"
+              size={14}
+              className="text-on-surface-muted transition-colors group-hover:text-electric"
             />
             {item.label}
           </div>

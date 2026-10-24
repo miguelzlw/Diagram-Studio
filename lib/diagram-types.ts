@@ -51,10 +51,10 @@ export const DIAGRAM_TYPES: Record<DiagramTypeId, DiagramTypeConfig> = {
     connectionRule:
       "Conexões livres; cada ligação tem um tipo (HTTP, TCP, lê, publica, consome).",
     badge:
-      "bg-indigo-100 text-indigo-700 dark:bg-indigo-500/15 dark:text-indigo-300",
+      "bg-blue-500/10 text-blue-600 border border-blue-500/30 dark:bg-blue-500/15 dark:text-blue-300",
     iconWrap:
-      "bg-indigo-50 text-indigo-600 dark:bg-indigo-500/15 dark:text-indigo-300",
-    ring: "ring-indigo-500",
+      "bg-blue-500/10 text-blue-600 border border-blue-500/30 dark:bg-blue-500/15 dark:text-blue-300",
+    ring: "ring-blue-500",
     paletteItems: [
       { nodeType: "server", label: "Servidor" },
       { nodeType: "database", label: "Banco" },
@@ -73,9 +73,9 @@ export const DIAGRAM_TYPES: Record<DiagramTypeId, DiagramTypeConfig> = {
     connectionRule:
       "Decisão tem 2 saídas (sim/não); Início só envia, Fim só recebe.",
     badge:
-      "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300",
+      "bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 dark:bg-emerald-500/15 dark:text-emerald-300",
     iconWrap:
-      "bg-emerald-50 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300",
+      "bg-emerald-500/10 text-emerald-600 border border-emerald-500/30 dark:bg-emerald-500/15 dark:text-emerald-300",
     ring: "ring-emerald-500",
     paletteItems: [
       { nodeType: "start", label: "Início" },
@@ -92,10 +92,10 @@ export const DIAGRAM_TYPES: Record<DiagramTypeId, DiagramTypeConfig> = {
     description: "Modele classes, interfaces e seus relacionamentos.",
     connectionRule: "Só conecta classe↔classe ou classe↔interface.",
     badge:
-      "bg-violet-100 text-violet-700 dark:bg-violet-500/15 dark:text-violet-300",
+      "bg-purple-500/10 text-purple-600 border border-purple-500/30 dark:bg-purple-500/15 dark:text-purple-300",
     iconWrap:
-      "bg-violet-50 text-violet-600 dark:bg-violet-500/15 dark:text-violet-300",
-    ring: "ring-violet-500",
+      "bg-purple-500/10 text-purple-600 border border-purple-500/30 dark:bg-purple-500/15 dark:text-purple-300",
+    ring: "ring-purple-500",
     paletteItems: [
       { nodeType: "class", label: "Classe" },
       { nodeType: "interface", label: "Interface" },
@@ -108,9 +108,9 @@ export const DIAGRAM_TYPES: Record<DiagramTypeId, DiagramTypeConfig> = {
     description: "Descreva atores e as funcionalidades que eles usam.",
     connectionRule: "Ator liga a casos de uso; ator não conecta com ator.",
     badge:
-      "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-300",
+      "bg-amber-500/10 text-amber-600 border border-amber-500/30 dark:bg-amber-500/15 dark:text-amber-300",
     iconWrap:
-      "bg-amber-50 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300",
+      "bg-amber-500/10 text-amber-600 border border-amber-500/30 dark:bg-amber-500/15 dark:text-amber-300",
     ring: "ring-amber-500",
     paletteItems: [
       { nodeType: "actor", label: "Ator" },
@@ -124,9 +124,11 @@ export const DIAGRAM_TYPES: Record<DiagramTypeId, DiagramTypeConfig> = {
     icon: IconDatabase,
     description: "Projete tabelas, colunas e chaves do seu banco.",
     connectionRule: "FK de uma coluna liga à PK da tabela referenciada.",
-    badge: "bg-sky-100 text-sky-700 dark:bg-sky-500/15 dark:text-sky-300",
-    iconWrap: "bg-sky-50 text-sky-600 dark:bg-sky-500/15 dark:text-sky-300",
-    ring: "ring-sky-500",
+    badge:
+      "bg-cyan-500/10 text-cyan-600 border border-cyan-500/30 dark:bg-cyan-500/15 dark:text-cyan-300",
+    iconWrap:
+      "bg-cyan-500/10 text-cyan-600 border border-cyan-500/30 dark:bg-cyan-500/15 dark:text-cyan-300",
+    ring: "ring-cyan-500",
     paletteItems: [{ nodeType: "table", label: "Tabela" }],
   },
   cloud: {
@@ -137,9 +139,9 @@ export const DIAGRAM_TYPES: Record<DiagramTypeId, DiagramTypeConfig> = {
     connectionRule:
       "Recursos ficam dentro do container certo (Subnet ⊂ VPC ⊂ Region).",
     badge:
-      "bg-orange-100 text-orange-700 dark:bg-orange-500/15 dark:text-orange-300",
+      "bg-orange-500/10 text-orange-600 border border-orange-500/30 dark:bg-orange-500/15 dark:text-orange-300",
     iconWrap:
-      "bg-orange-50 text-orange-600 dark:bg-orange-500/15 dark:text-orange-300",
+      "bg-orange-500/10 text-orange-600 border border-orange-500/30 dark:bg-orange-500/15 dark:text-orange-300",
     ring: "ring-orange-500",
     paletteItems: [
       { nodeType: "region", label: "Region" },
@@ -164,8 +166,10 @@ export const DIAGRAM_TYPES: Record<DiagramTypeId, DiagramTypeConfig> = {
     icon: IconBulb,
     description: "Organize ideias livremente a partir de um tópico central.",
     connectionRule: "Ramificações livres, sem restrições.",
-    badge: "bg-pink-100 text-pink-700 dark:bg-pink-500/15 dark:text-pink-300",
-    iconWrap: "bg-pink-50 text-pink-600 dark:bg-pink-500/15 dark:text-pink-300",
+    badge:
+      "bg-pink-500/10 text-pink-600 border border-pink-500/30 dark:bg-pink-500/15 dark:text-pink-300",
+    iconWrap:
+      "bg-pink-500/10 text-pink-600 border border-pink-500/30 dark:bg-pink-500/15 dark:text-pink-300",
     ring: "ring-pink-500",
     paletteItems: [
       { nodeType: "central", label: "Tópico central" },

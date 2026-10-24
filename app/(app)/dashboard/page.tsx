@@ -21,7 +21,7 @@ export default async function DashboardPage() {
   return (
     <>
       <AppHeader />
-      <main className="mx-auto max-w-6xl px-4 py-8">
+      <main className="mx-auto max-w-7xl px-6 py-10 md:py-12">
         <DashboardGrid diagrams={items} />
       </main>
     </>

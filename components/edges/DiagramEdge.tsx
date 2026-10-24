@@ -29,7 +29,7 @@ function DiagramEdgeImpl({
     sourcePosition,
     targetPosition,
   });
-  const stroke = selected ? "#6366f1" : "#94a3b8";
+  const stroke = selected ? "#3b82f6" : "#64748b";
 
   return (
     <>
@@ -40,14 +40,15 @@ function DiagramEdgeImpl({
         markerEnd={d.markerEnd ? `url(#dg-${d.markerEnd})` : undefined}
         style={{
           stroke,
-          strokeWidth: selected ? 2 : 1.5,
+          strokeWidth: selected ? 2.5 : 1.5,
           strokeDasharray: d.dashed ? "6 4" : undefined,
+          filter: selected ? "drop-shadow(0 0 6px rgba(59,130,246,0.5))" : undefined,
         }}
       />
       {d.label && (
         <EdgeLabelRenderer>
           <div
-            className="nodrag nopan absolute rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-medium text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+            className="nodrag nopan glass absolute rounded-md px-2 py-0.5 font-mono text-[10px] font-medium uppercase tracking-wider text-on-surface-variant shadow-sm"
             style={{
               transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
             }}

@@ -96,9 +96,21 @@ export function Canvas({
       connectionRadius={45}
       deleteKeyCode={["Backspace", "Delete"]}
     >
-      <Background variant={BackgroundVariant.Dots} gap={16} size={1} />
+      <Background
+        variant={BackgroundVariant.Dots}
+        gap={20}
+        size={1}
+        color={dark ? "#424754" : "#cbd5e1"}
+      />
       <Controls />
-      <MiniMap pannable zoomable position="top-right" />
+      <MiniMap
+        pannable
+        zoomable
+        position="top-right"
+        maskColor={dark ? "rgba(11, 19, 38, 0.75)" : "rgba(244, 246, 251, 0.85)"}
+        nodeColor="#3b82f6"
+        nodeStrokeWidth={2}
+      />
     </ReactFlow>
   );
 }

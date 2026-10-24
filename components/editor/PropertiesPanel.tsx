@@ -1,15 +1,15 @@
 "use client";
 
 import type { Node, Edge } from "@xyflow/react";
-import { IconPlus, IconTrash } from "@tabler/icons-react";
+import { IconPlus, IconTrash, IconSettings2 } from "@tabler/icons-react";
 import { getDiagramType } from "@/lib/diagram-types";
 import { getEdgeOptions, type DiagramEdgeData } from "@/lib/edge-config";
 import type { ColumnDef, DiagramNodeData } from "@/components/nodes/shared";
 
 const FIELD_CLASS =
-  "w-full rounded-md border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-900 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:focus:ring-indigo-500/20";
+  "w-full rounded-md border border-outline-variant bg-surface-container px-3 py-2 text-sm text-on-surface outline-none transition-colors focus:border-electric focus:ring-2 focus:ring-electric/20 placeholder:text-on-surface-muted";
 const LABEL_CLASS =
-  "text-xs font-medium text-slate-500 dark:text-slate-400";
+  "font-mono text-[10px] font-semibold uppercase tracking-wider text-on-surface-muted";
 
 interface PropertiesPanelProps {
   selectedNode: Node | null;
@@ -33,7 +33,23 @@ export function PropertiesPanel({
   onUpdateEdge,
 }: PropertiesPanelProps) {
   return (
-    <aside className="w-64 shrink-0 overflow-y-auto border-l border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+    <aside className="flex w-72 shrink-0 flex-col overflow-y-auto border-l border-outline-variant bg-surface-glass p-4 backdrop-blur-md">
+      <div className="mb-4 flex items-center gap-2">
+        <span className="flex h-7 w-7 items-center justify-center rounded-md bg-electric-soft text-electric">
+          <IconSettings2 size={14} stroke={2} />
+        </span>
+        <div>
+          <h2 className="text-sm font-bold text-on-surface">Propriedades</h2>
+          <p className="font-mono text-[9px] uppercase tracking-wider text-on-surface-muted">
+            {selectedNode
+              ? "Nó selecionado"
+              : selectedEdge
+              ? "Conexão selecionada"
+              : "Metadados"}
+          </p>
+        </div>
+      </div>
+
       {selectedNode ? (
         <NodeProperties node={selectedNode} onUpdateNode={onUpdateNode} />
       ) : selectedEdge ? (
@@ -67,11 +83,7 @@ function NodeProperties({
 
   return (
     <div className="flex flex-col gap-4">
-      <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-        Propriedades do elemento
-      </h2>
-
-      <label className="flex flex-col gap-1">
+      <label className="flex flex-col gap-1.5">
         <span className={LABEL_CLASS}>Nome</span>
         <input
           value={data.label}
@@ -82,7 +94,7 @@ function NodeProperties({
 
       {isUmlClass && (
         <>
-          <label className="flex flex-col gap-1">
+          <label className="flex flex-col gap-1.5">
             <span className={LABEL_CLASS}>Atributos (um por linha)</span>
             <textarea
               rows={4}
@@ -92,10 +104,10 @@ function NodeProperties({
                   attributes: e.target.value.split("\n"),
                 })
               }
-              className={`${FIELD_CLASS} resize-y font-mono`}
+              className={`${FIELD_CLASS} resize-y font-mono text-xs`}
             />
           </label>
-          <label className="flex flex-col gap-1">
+          <label className="flex flex-col gap-1.5">
             <span className={LABEL_CLASS}>Métodos (um por linha)</span>
             <textarea
               rows={4}
@@ -105,7 +117,7 @@ function NodeProperties({
                   methods: e.target.value.split("\n"),
                 })
               }
-              className={`${FIELD_CLASS} resize-y font-mono`}
+              className={`${FIELD_CLASS} resize-y font-mono text-xs`}
             />
           </label>
         </>
@@ -165,7 +177,7 @@ function ColumnsEditor({
           <button
             type="button"
             onClick={() => remove(col.id)}
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-slate-400 hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-500/10"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-on-surface-muted transition-colors hover:bg-red-500/15 hover:text-red-400"
           >
             <IconTrash size={14} />
           </button>
@@ -174,9 +186,9 @@ function ColumnsEditor({
       <button
         type="button"
         onClick={add}
-        className="inline-flex items-center justify-center gap-1 rounded-md border border-dashed border-slate-300 py-1.5 text-xs font-medium text-slate-500 hover:border-indigo-400 hover:text-indigo-600 dark:border-slate-700 dark:text-slate-400 dark:hover:border-indigo-500/50 dark:hover:text-indigo-300"
+        className="inline-flex items-center justify-center gap-1 rounded-md border border-dashed border-outline-variant py-2 font-mono text-[10px] uppercase tracking-wider text-on-surface-variant transition-all hover:border-electric/50 hover:text-electric"
       >
-        <IconPlus size={14} />
+        <IconPlus size={12} />
         Adicionar coluna
       </button>
     </div>
@@ -196,13 +208,9 @@ function EdgeProperties({
   const data = (edge.data ?? {}) as DiagramEdgeData;
 
   return (
-    <div className="flex flex-col gap-3">
-      <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-        Conexão selecionada
-      </h2>
-
+    <div className="flex flex-col gap-4">
       {options.length > 1 ? (
-        <label className="flex flex-col gap-1">
+        <label className="flex flex-col gap-1.5">
           <span className={LABEL_CLASS}>Tipo de relacionamento</span>
           <select
             value={data.relation ?? options[0]?.id ?? ""}
@@ -217,13 +225,14 @@ function EdgeProperties({
           </select>
         </label>
       ) : (
-        <p className="text-xs text-slate-500 dark:text-slate-400">
+        <p className="text-xs text-on-surface-variant">
           Este tipo de diagrama usa um único tipo de conexão.
         </p>
       )}
 
-      <p className="rounded-lg bg-slate-50 p-2 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-        Pressione Delete para remover esta conexão.
+      <p className="rounded-lg border border-outline-variant bg-surface-container px-3 py-2 text-xs text-on-surface-variant">
+        Pressione <kbd className="rounded bg-surface-container-high px-1.5 py-0.5 font-mono text-[10px] text-on-surface">Delete</kbd>{" "}
+        para remover esta conexão.
       </p>
     </div>
   );
@@ -243,14 +252,11 @@ function Metadata({
   const config = getDiagramType(type);
   return (
     <div className="flex flex-col gap-3">
-      <h2 className="text-sm font-semibold text-slate-900 dark:text-slate-100">
-        Diagrama
-      </h2>
       <Row label="Nome" value={name || "Sem título"} />
       <Row label="Tipo" value={config?.label ?? type} />
       <Row label="Elementos" value={String(nodeCount)} />
       <Row label="Conexões" value={String(edgeCount)} />
-      <p className="mt-2 rounded-lg bg-slate-50 p-2 text-xs text-slate-500 dark:bg-slate-800 dark:text-slate-400">
+      <p className="mt-3 rounded-lg border border-outline-variant bg-surface-container px-3 py-2 text-xs text-on-surface-variant">
         Selecione um elemento para editar suas propriedades.
       </p>
     </div>
@@ -259,11 +265,11 @@ function Metadata({
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between text-sm">
-      <span className="text-slate-500 dark:text-slate-400">{label}</span>
-      <span className="font-medium text-slate-800 dark:text-slate-100">
-        {value}
+    <div className="flex items-center justify-between rounded-md border border-outline-variant/60 bg-surface-container/60 px-3 py-2 text-sm">
+      <span className="font-mono text-[10px] uppercase tracking-wider text-on-surface-muted">
+        {label}
       </span>
+      <span className="font-semibold text-on-surface">{value}</span>
     </div>
   );
 }

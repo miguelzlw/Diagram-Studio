@@ -21,7 +21,7 @@ export interface DiagramNodeData {
 }
 
 const HANDLE_CLASS =
-  "!h-3.5 !w-3.5 !rounded-full !border-2 !border-white !bg-indigo-400 transition-transform hover:!scale-125 hover:!bg-indigo-500 dark:!border-slate-900";
+  "!h-3 !w-3 !rounded-full !border-2 !border-[#3b82f6] !bg-white transition-all hover:!scale-125 hover:!bg-[#3b82f6] hover:!shadow-[0_0_12px_rgba(59,130,246,0.6)] dark:!bg-[#0b1326]";
 
 export function NodeHandles({
   source = true,
@@ -65,14 +65,14 @@ export function Resizer({
       isVisible={!!selected}
       minWidth={minWidth}
       minHeight={minHeight}
-      lineClassName="!border-indigo-400"
-      handleClassName="!h-2.5 !w-2.5 !rounded-[3px] !border-2 !border-white !bg-indigo-500 dark:!border-slate-900"
+      lineClassName="!border-[#3b82f6]"
+      handleClassName="!h-2.5 !w-2.5 !rounded-[3px] !border-2 !border-white !bg-[#3b82f6] dark:!border-[#0b1326]"
     />
   );
 }
 
 export function selectionRing(selected: boolean) {
   return selected
-    ? "ring-2 ring-indigo-500 ring-offset-1 dark:ring-offset-slate-950"
+    ? "ring-2 ring-[#3b82f6] ring-offset-2 ring-offset-[var(--bg)] shadow-[0_0_24px_rgba(59,130,246,0.25)]"
     : "";
 }

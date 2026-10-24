@@ -24,9 +24,9 @@ function UmlUseCaseNodeImpl({ data, selected }: NodeProps) {
         <IconUser
           size={40}
           stroke={1.6}
-          className="shrink-0 text-slate-700 dark:text-slate-200"
+          className="shrink-0 text-on-surface"
         />
-        <span className="mt-0.5 truncate text-xs font-medium text-slate-800 dark:text-slate-100">
+        <span className="mt-0.5 truncate text-xs font-semibold text-on-surface">
           {d.label}
         </span>
       </div>
@@ -36,11 +36,11 @@ function UmlUseCaseNodeImpl({ data, selected }: NodeProps) {
   if (d.nodeType === "system") {
     return (
       <div
-        className={`h-full w-full rounded-lg border-2 border-slate-300 bg-slate-50/60 dark:border-slate-600 dark:bg-slate-800/40 ${ring}`}
+        className={`inner-glow h-full w-full rounded-lg border-2 border-dashed border-outline bg-surface-container/40 backdrop-blur-sm ${ring}`}
       >
         <Resizer selected={selected} minWidth={200} minHeight={150} />
         <NodeHandles />
-        <div className="truncate px-3 py-1.5 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+        <div className="truncate px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-on-surface-variant">
           {d.label}
         </div>
       </div>
@@ -49,11 +49,11 @@ function UmlUseCaseNodeImpl({ data, selected }: NodeProps) {
 
   return (
     <div
-      className={`flex h-full w-full items-center justify-center rounded-[50%] border-2 border-amber-400 bg-amber-50 px-5 dark:border-amber-500/60 dark:bg-amber-500/10 ${ring}`}
+      className={`inner-glow flex h-full w-full items-center justify-center rounded-[50%] border-2 border-amber-500/60 bg-amber-500/15 px-5 shadow-[0_0_16px_rgba(245,158,11,0.15)] ${ring}`}
     >
       <Resizer selected={selected} minWidth={120} minHeight={64} />
       <NodeHandles />
-      <span className="truncate text-center text-sm font-medium text-slate-800 dark:text-slate-100">
+      <span className="truncate text-center text-sm font-semibold text-on-surface">
         {d.label}
       </span>
     </div>

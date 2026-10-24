@@ -299,7 +299,7 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
   );
 
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex h-screen flex-col bg-bg">
       <MarkerDefs />
       <Toolbar
         name={name}
@@ -326,7 +326,7 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
             onAddNode={onAddNode}
           />
           {toast && (
-            <div className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 rounded-lg bg-slate-900 px-4 py-2 text-sm text-white shadow-lg dark:bg-slate-700">
+            <div className="glass-strong absolute bottom-6 left-1/2 z-10 -translate-x-1/2 rounded-full border border-red-500/40 px-4 py-2 text-sm font-medium text-red-300 shadow-[0_0_24px_rgba(239,68,68,0.2)]">
               {toast}
             </div>
           )}

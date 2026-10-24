@@ -31,11 +31,11 @@ export function Toolbar({
   onExport,
 }: ToolbarProps) {
   return (
-    <header className="flex h-14 shrink-0 items-center gap-3 border-b border-slate-200 bg-white px-3 dark:border-slate-800 dark:bg-slate-900">
+    <header className="flex h-16 shrink-0 items-center gap-3 border-b border-outline-variant bg-surface-glass px-4 backdrop-blur-md">
       <Link
         href="/dashboard"
         title="Voltar ao dashboard"
-        className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-100"
+        className="flex h-9 w-9 items-center justify-center rounded-lg text-on-surface-variant transition-all hover:bg-surface-container-high hover:text-electric"
       >
         <IconArrowLeft size={18} stroke={2} />
       </Link>
@@ -44,7 +44,7 @@ export function Toolbar({
         value={name}
         onChange={(e) => onNameChange(e.target.value)}
         placeholder="Sem título"
-        className="min-w-0 max-w-xs flex-1 rounded-md border border-transparent bg-transparent px-2 py-1 text-sm font-medium text-slate-900 outline-none hover:border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 dark:text-slate-100 dark:hover:border-slate-700 dark:focus:ring-indigo-500/20"
+        className="min-w-0 max-w-xs flex-1 rounded-md border border-transparent bg-transparent px-2 py-1.5 text-sm font-semibold text-on-surface outline-none transition-colors placeholder:text-on-surface-muted hover:border-outline-variant focus:border-electric focus:ring-2 focus:ring-electric/20"
       />
 
       <TypeBadge type={type} />
@@ -54,12 +54,12 @@ export function Toolbar({
           type="button"
           onClick={onSave}
           disabled={saving || !dirty}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50 disabled:opacity-60 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-outline-variant bg-surface-glass px-3 py-1.5 text-sm font-semibold text-on-surface backdrop-blur transition-all hover:scale-[1.02] hover:bg-surface-container-high disabled:opacity-60 disabled:hover:scale-100"
         >
           {dirty || saving ? (
             <IconDeviceFloppy size={16} stroke={2} />
           ) : (
-            <IconCheck size={16} stroke={2} />
+            <IconCheck size={16} stroke={2} className="text-emerald-400" />
           )}
           {saving ? "Salvando..." : dirty ? "Salvar" : "Salvo"}
         </button>
@@ -68,7 +68,7 @@ export function Toolbar({
           type="button"
           onClick={onExport}
           disabled={exporting}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white transition-colors hover:bg-indigo-700 disabled:opacity-60"
+          className="btn-electric inline-flex items-center gap-1.5 rounded-lg px-4 py-1.5 text-sm"
         >
           <IconFileTypePdf size={16} stroke={2} />
           {exporting ? "Exportando..." : "Exportar PDF"}

@@ -2,21 +2,96 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-:root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-}
+/* ============================================
+ * Diagram Studio – Design System
+ * Dark-first com glassmorphism + acentos elétricos
+ * ============================================ */
 
-.dark {
-  --background: #0b1120;
-  --foreground: #e2e8f0;
-}
+@theme {
+  /* Acentos principais */
+  --color-electric: #3b82f6;
+  --color-electric-soft: rgba(59, 130, 246, 0.15);
+  --color-electric-glow: rgba(59, 130, 246, 0.35);
+  --color-vibrant: #a855f7;
+  --color-vibrant-soft: rgba(168, 85, 247, 0.15);
+  --color-vibrant-glow: rgba(168, 85, 247, 0.35);
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  /* Fontes */
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-jetbrains-mono);
+
+  /* Sombras */
+  --shadow-glow-electric: 0 0 20px rgba(59, 130, 246, 0.3);
+  --shadow-glow-vibrant: 0 0 20px rgba(168, 85, 247, 0.3);
+}
+
+/* === Tema CLARO (padrão amigável caso o user troque) === */
+:root {
+  --bg: #f4f6fb;
+  --bg-elevated: #ffffff;
+  --surface: #ffffff;
+  --surface-container: #f1f4fa;
+  --surface-container-low: #f7f9fc;
+  --surface-container-high: #e9edf5;
+  --surface-container-highest: #dde3ee;
+  --surface-glass: rgba(255, 255, 255, 0.7);
+  --surface-glass-strong: rgba(255, 255, 255, 0.85);
+  --on-surface: #0f172a;
+  --on-surface-variant: #475569;
+  --on-surface-muted: #64748b;
+  --outline: #cbd5e1;
+  --outline-variant: #e2e8f0;
+  --primary: #3b82f6;
+  --primary-container: #4d8eff;
+  --on-primary: #ffffff;
+  --grid-dot: rgba(148, 163, 184, 0.5);
+  --ambient-1: rgba(59, 130, 246, 0.18);
+  --ambient-2: rgba(168, 85, 247, 0.14);
+}
+
+/* === Tema ESCURO (foco principal do design) === */
+.dark {
+  --bg: #0b1326;
+  --bg-elevated: #131b2e;
+  --surface: #0b1326;
+  --surface-container: #171f33;
+  --surface-container-low: #131b2e;
+  --surface-container-high: #222a3d;
+  --surface-container-highest: #2d3449;
+  --surface-glass: rgba(30, 41, 59, 0.6);
+  --surface-glass-strong: rgba(30, 41, 59, 0.85);
+  --on-surface: #dae2fd;
+  --on-surface-variant: #c2c6d6;
+  --on-surface-muted: #8c909f;
+  --outline: #8c909f;
+  --outline-variant: #424754;
+  --primary: #adc6ff;
+  --primary-container: #4d8eff;
+  --on-primary: #002e6a;
+  --grid-dot: rgba(66, 71, 84, 0.6);
+  --ambient-1: rgba(59, 130, 246, 0.18);
+  --ambient-2: rgba(168, 85, 247, 0.16);
+}
+
+/* Mapeia as vars para utilitários Tailwind */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-surface: var(--surface);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-surface-glass: var(--surface-glass);
+  --color-surface-glass-strong: var(--surface-glass-strong);
+  --color-on-surface: var(--on-surface);
+  --color-on-surface-variant: var(--on-surface-variant);
+  --color-on-surface-muted: var(--on-surface-muted);
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-primary: var(--primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary: var(--on-primary);
 }
 
 html,
@@ -25,7 +100,176 @@ body {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--on-surface);
   font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+/* Tipografia mono para labels técnicos */
+.font-mono,
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-jetbrains-mono), "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* === Utilitários reutilizáveis === */
+
+/* Glassmorphism */
+.glass {
+  background: var(--surface-glass);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--outline-variant);
+}
+.glass-strong {
+  background: var(--surface-glass-strong);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid var(--outline-variant);
+}
+
+/* Brilho elétrico sutil em botões/cards selecionados */
+.glow-electric {
+  box-shadow:
+    0 0 0 1px rgba(59, 130, 246, 0.3),
+    0 0 24px rgba(59, 130, 246, 0.25);
+}
+.glow-vibrant {
+  box-shadow:
+    0 0 0 1px rgba(168, 85, 247, 0.3),
+    0 0 24px rgba(168, 85, 247, 0.25);
+}
+
+/* Inner highlight (top sutil em cards de vidro) */
+.inner-glow {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+.dark .inner-glow {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+/* Botão primário com pulse de brilho */
+.btn-electric {
+  background: var(--color-electric);
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+.btn-electric:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.btn-electric:active {
+  transform: scale(0.98);
+}
+.btn-electric:disabled {
+  opacity: 0.55;
+  transform: none;
+  cursor: not-allowed;
+}
+
+/* Ambient mesh background — usado em login/register */
+.ambient-mesh {
+  position: relative;
+  isolation: isolate;
+}
+.ambient-mesh::before,
+.ambient-mesh::after {
+  content: "";
+  position: absolute;
+  width: 50vw;
+  height: 50vw;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: -1;
+  pointer-events: none;
+  animation: float 22s infinite alternate ease-in-out;
+}
+.ambient-mesh::before {
+  top: -15%;
+  left: -10%;
+  background: var(--ambient-1);
+}
+.ambient-mesh::after {
+  bottom: -20%;
+  right: -10%;
+  background: var(--ambient-2);
+  animation-delay: -8s;
+}
+@keyframes float {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(6%, 4%) scale(1.15);
+  }
+}
+
+/* Grid pattern para o canvas e thumbnails */
+.bg-dot-grid {
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Scrollbar mais discreta */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--outline-variant);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--outline);
+}
+
+/* React Flow overrides — tema escuro elétrico */
+.dark .react-flow__background {
+  background-color: var(--bg);
+}
+.react-flow__controls button {
+  background: var(--surface-container) !important;
+  border-bottom: 1px solid var(--outline-variant) !important;
+  color: var(--on-surface-variant) !important;
+}
+.react-flow__controls button:hover {
+  background: var(--surface-container-high) !important;
+  color: var(--color-electric) !important;
+}
+.react-flow__minimap {
+  background: var(--surface-glass-strong) !important;
+  border: 1px solid var(--outline-variant) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(12px);
+}
+.react-flow__handle {
+  width: 12px !important;
+  height: 12px !important;
+  background: var(--surface) !important;
+  border: 2px solid var(--color-electric) !important;
+  transition: all 0.15s ease;
+}
+.react-flow__handle:hover {
+  background: var(--color-electric) !important;
+  box-shadow: 0 0 12px var(--color-electric-glow);
+}
+
+/* Animações sutis */
+@keyframes pulse-dot {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
 }

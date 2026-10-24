@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IconAffiliate } from "@tabler/icons-react";
 import { auth, signOut } from "@/lib/auth";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -8,19 +9,25 @@ export async function AppHeader() {
   const initial = name.charAt(0).toUpperCase();
 
   return (
-    <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-900/80">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
+    <header className="sticky top-0 z-30 border-b border-outline-variant bg-surface-glass backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link
           href="/dashboard"
-          className="text-sm font-semibold tracking-tight text-slate-900 dark:text-slate-100"
+          className="flex items-center gap-2 transition-opacity hover:opacity-80"
         >
-          Diagram Studio
+          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-electric-soft text-electric ring-1 ring-electric/30">
+            <IconAffiliate size={18} stroke={2} />
+          </span>
+          <span className="text-base font-bold tracking-tight text-on-surface">
+            Diagram <span className="text-electric">Studio</span>
+          </span>
         </Link>
+
         <div className="flex items-center gap-3">
           <ThemeToggle />
           <div
             title={name}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 text-sm font-medium text-white"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-outline-variant bg-surface-container-high text-xs font-bold text-on-surface"
           >
             {initial}
           </div>
@@ -32,7 +39,7 @@ export async function AppHeader() {
           >
             <button
               type="submit"
-              className="text-sm text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
+              className="text-sm font-medium text-on-surface-variant transition-colors hover:text-electric"
             >
               Sair
             </button>

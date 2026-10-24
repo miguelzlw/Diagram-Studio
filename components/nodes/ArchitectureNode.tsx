@@ -36,16 +36,16 @@ function ArchitectureNodeImpl({ data, selected }: NodeProps) {
 
   return (
     <div
-      className={`flex h-full w-full items-center gap-2 overflow-hidden rounded-lg border border-slate-300 bg-white px-3 py-2 shadow-sm dark:border-slate-700 dark:bg-slate-800 ${selectionRing(
+      className={`inner-glow flex h-full w-full items-center gap-2 overflow-hidden rounded-lg border border-outline-variant bg-surface-container px-3 py-2 shadow-sm transition-all hover:border-electric/50 ${selectionRing(
         !!selected,
       )}`}
     >
       <Resizer selected={selected} minWidth={120} minHeight={48} />
       <NodeHandles />
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-indigo-50 text-indigo-600 dark:bg-indigo-500/15 dark:text-indigo-300">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-electric/30 bg-electric/10 text-electric">
         <Icon size={18} stroke={1.8} />
       </span>
-      <span className="truncate text-sm font-medium text-slate-800 dark:text-slate-100">
+      <span className="truncate text-sm font-semibold text-on-surface">
         {d.label}
       </span>
     </div>

@@ -19,26 +19,26 @@ function FlowchartNodeImpl({ data, selected }: NodeProps) {
   switch (d.nodeType) {
     case "start":
       shapeClass +=
-        "rounded-full border-2 border-emerald-400 bg-emerald-50 dark:border-emerald-500/60 dark:bg-emerald-500/10";
+        "rounded-full border-2 border-emerald-500/70 bg-emerald-500/15 shadow-[0_0_16px_rgba(16,185,129,0.15)]";
       break;
     case "end":
       shapeClass +=
-        "rounded-full border-2 border-red-400 bg-red-50 dark:border-red-500/60 dark:bg-red-500/10";
+        "rounded-full border-2 border-red-500/70 bg-red-500/15 shadow-[0_0_16px_rgba(239,68,68,0.15)]";
       break;
     case "decision":
       shapeClass +=
-        "rotate-45 border-2 border-amber-400 bg-amber-50 dark:border-amber-500/60 dark:bg-amber-500/10";
+        "rotate-45 border-2 border-amber-500/70 bg-amber-500/15 shadow-[0_0_16px_rgba(245,158,11,0.15)]";
       labelStyle = { transform: "rotate(-45deg)" };
       break;
     case "io":
       shapeClass +=
-        "border-2 border-sky-400 bg-sky-50 dark:border-sky-500/60 dark:bg-sky-500/10";
+        "border-2 border-cyan-500/70 bg-cyan-500/15 shadow-[0_0_16px_rgba(6,182,212,0.15)]";
       shapeStyle = { transform: "skewX(-14deg)" };
       labelStyle = { transform: "skewX(14deg)" };
       break;
     default:
       shapeClass +=
-        "rounded-md border-2 border-slate-300 bg-white dark:border-slate-600 dark:bg-slate-800";
+        "rounded-md border border-outline-variant bg-surface-container inner-glow";
   }
 
   return (
@@ -50,7 +50,7 @@ function FlowchartNodeImpl({ data, selected }: NodeProps) {
       />
       <div className={shapeClass} style={shapeStyle}>
         <span
-          className="px-2 text-center text-sm font-medium text-slate-800 dark:text-slate-100"
+          className="px-2 text-center text-sm font-semibold text-on-surface"
           style={labelStyle}
         >
           {d.label}

@@ -18,8 +18,8 @@ function MindMapNodeImpl({ data, selected }: NodeProps) {
     <div
       className={
         isCentral
-          ? `flex h-full w-full items-center justify-center rounded-full bg-pink-600 px-6 text-center text-sm font-semibold text-white shadow-md ${ring}`
-          : `flex h-full w-full items-center justify-center rounded-full border border-pink-300 bg-pink-50 px-4 text-center text-sm font-medium text-pink-800 dark:border-pink-500/50 dark:bg-pink-500/10 dark:text-pink-200 ${ring}`
+          ? `flex h-full w-full items-center justify-center rounded-full bg-gradient-to-br from-pink-600 to-purple-600 px-6 text-center text-sm font-bold text-white shadow-[0_0_24px_rgba(168,85,247,0.4)] ${ring}`
+          : `inner-glow flex h-full w-full items-center justify-center rounded-full border border-pink-500/50 bg-pink-500/15 px-4 text-center text-sm font-semibold text-on-surface ${ring}`
       }
     >
       <Resizer selected={selected} minWidth={100} minHeight={44} />

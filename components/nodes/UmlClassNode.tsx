@@ -17,32 +17,32 @@ function UmlClassNodeImpl({ data, selected }: NodeProps) {
 
   return (
     <div
-      className={`flex h-full w-full flex-col overflow-hidden rounded-md border border-slate-400 bg-white shadow-sm dark:border-slate-600 dark:bg-slate-800 ${selectionRing(
+      className={`inner-glow flex h-full w-full flex-col overflow-hidden rounded-lg border border-outline-variant bg-surface-container shadow-sm ${selectionRing(
         !!selected,
       )}`}
     >
       <Resizer selected={selected} minWidth={140} minHeight={110} />
       <NodeHandles />
-      <div className="border-b border-slate-300 bg-slate-50 px-3 py-1.5 text-center dark:border-slate-600 dark:bg-slate-900">
+      <div className="border-b border-outline-variant bg-surface-container-high px-3 py-1.5 text-center">
         {isInterface && (
-          <div className="text-[10px] italic text-slate-500 dark:text-slate-400">
+          <div className="font-mono text-[9px] uppercase italic tracking-wider text-purple-400">
             «interface»
           </div>
         )}
-        <div className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">
+        <div className="truncate text-sm font-bold text-on-surface">
           {d.label}
         </div>
       </div>
-      <div className="flex-1 overflow-auto border-b border-slate-200 px-3 py-1.5 dark:border-slate-700">
+      <div className="flex-1 overflow-auto border-b border-outline-variant px-3 py-1.5">
         {attributes.length === 0 ? (
-          <div className="text-[11px] italic text-slate-300 dark:text-slate-600">
+          <div className="font-mono text-[10px] italic text-on-surface-muted">
             atributos
           </div>
         ) : (
           attributes.map((a, i) => (
             <div
               key={i}
-              className="font-mono text-[11px] text-slate-700 dark:text-slate-300"
+              className="font-mono text-[11px] text-on-surface-variant"
             >
               {a}
             </div>
@@ -51,14 +51,14 @@ function UmlClassNodeImpl({ data, selected }: NodeProps) {
       </div>
       <div className="flex-1 overflow-auto px-3 py-1.5">
         {methods.length === 0 ? (
-          <div className="text-[11px] italic text-slate-300 dark:text-slate-600">
+          <div className="font-mono text-[10px] italic text-on-surface-muted">
             métodos
           </div>
         ) : (
           methods.map((m, i) => (
             <div
               key={i}
-              className="font-mono text-[11px] text-slate-700 dark:text-slate-300"
+              className="font-mono text-[11px] text-on-surface-variant"
             >
               {m}()
             </div>

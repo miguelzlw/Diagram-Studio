@@ -1,18 +1,19 @@
 import Link from "next/link";
 
-type Variant = "primary" | "secondary" | "ghost";
+type Variant = "primary" | "secondary" | "ghost" | "danger";
 
 const VARIANTS: Record<Variant, string> = {
-  primary:
-    "bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-60",
+  primary: "btn-electric",
   secondary:
-    "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700",
+    "border border-outline-variant bg-surface-glass text-on-surface backdrop-blur-md hover:bg-surface-container-high hover:scale-[1.02] transition-all",
   ghost:
-    "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800",
+    "text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors",
+  danger:
+    "border border-red-500/30 bg-red-500/10 text-red-300 hover:bg-red-500/20 hover:scale-[1.02] transition-all",
 };
 
 const BASE =
-  "inline-flex items-center justify-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center gap-1.5 rounded-lg px-4 py-2 text-sm font-semibold tracking-tight disabled:cursor-not-allowed";
 
 type CommonProps = {
   variant?: Variant;

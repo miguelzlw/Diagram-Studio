@@ -19,8 +19,8 @@ export function ConnectionLine({
     connectionStatus === "invalid"
       ? "#ef4444"
       : connectionStatus === "valid"
-        ? "#22c55e"
-        : "#6366f1";
+        ? "#10b981"
+        : "#3b82f6";
 
   const [path] = getBezierPath({
     sourceX: fromX,
@@ -39,8 +39,9 @@ export function ConnectionLine({
         stroke={color}
         strokeWidth={2}
         strokeDasharray="6 4"
+        style={{ filter: `drop-shadow(0 0 6px ${color}66)` }}
       />
-      <circle cx={toX} cy={toY} r={3} fill={color} stroke="white" />
+      <circle cx={toX} cy={toY} r={4} fill={color} stroke="white" strokeWidth={1.5} />
     </g>
   );
 }

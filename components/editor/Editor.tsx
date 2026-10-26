@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ReactFlowProvider,
+  useReactFlow,
   useNodesState,
   useEdgesState,
   type Node,
@@ -16,6 +17,7 @@ import {
   type XYPosition,
 } from "@xyflow/react";
 import { Toolbar } from "./Toolbar";
+import { createSaveTracker } from "@/lib/save-tracker";
 import { Palette } from "./Palette";
 import { Canvas } from "./Canvas";
 import { PropertiesPanel } from "./PropertiesPanel";
@@ -57,6 +59,7 @@ function serialize(nodes: Node[], edges: Edge[]): string {
 }
 
 function EditorInner({ diagram }: { diagram: EditorDiagram }) {
+  const { getNodesBounds } = useReactFlow();
   const [nodes, setNodes, onNodesChange] = useNodesState(diagram.nodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(diagram.edges);
   const [name, setName] = useState(diagram.name);
@@ -66,23 +69,31 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [propertiesOpen, setPropertiesOpen] = useState(false);
+  const trackerRef = useRef(createSaveTracker());
+  const markDirty = useCallback(() => {
+    trackerRef.current.edit();
+    setDirty(true);
+  }, []);
+
+  const stateRef = useRef({ nodes, edges, name, dirty });
 
   const handleNodesChange = useCallback(
     (changes: NodeChange[]) => {
       onNodesChange(changes);
-      if (changes.some((c) => c.type !== "select" && c.type !== "dimensions")) {
-        setDirty(true);
+      if (changes.some((c) => c.type === "dimensions" ? c.resizing === true : c.type !== "select")) {
+        markDirty();
       }
     },
-    [onNodesChange],
+    [onNodesChange, markDirty],
   );
 
   const handleEdgesChange = useCallback(
     (changes: EdgeChange[]) => {
       onEdgesChange(changes);
-      if (changes.some((c) => c.type !== "select")) setDirty(true);
+      if (changes.some((c) => c.type !== "select")) markDirty();
     },
-    [onEdgesChange],
+    [onEdgesChange, markDirty],
   );
 
   const onConnect = useCallback(
@@ -127,9 +138,9 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
           }),
         );
       }
-      setDirty(true);
+      markDirty();
     },
-    [diagram.type, setEdges, setNodes],
+    [diagram.type, setEdges, setNodes, markDirty],
   );
 
   const isValidConnection = useCallback<IsValidConnection>(
@@ -186,9 +197,9 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
         height: size.height,
       };
       setNodes((ns) => [...ns, node]);
-      setDirty(true);
+      markDirty();
     },
-    [diagram.type, setNodes],
+    [diagram.type, setNodes, markDirty],
   );
 
   const onUpdateNode = useCallback(
@@ -198,24 +209,27 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
           n.id === id ? { ...n, data: { ...n.data, ...patch } } : n,
         ),
       );
-      setDirty(true);
+      markDirty();
     },
-    [setNodes],
+    [setNodes, markDirty],
   );
 
   const onUpdateEdge = useCallback(
     (id: string, relationId: string) => {
       const data = buildEdgeData(diagram.type, relationId);
       setEdges((eds) => eds.map((e) => (e.id === id ? { ...e, data } : e)));
-      setDirty(true);
+      markDirty();
     },
-    [diagram.type, setEdges],
+    [diagram.type, setEdges, markDirty],
   );
 
-  const stateRef = useRef({ nodes, edges, name, dirty });
-  stateRef.current = { nodes, edges, name, dirty };
+  useEffect(() => {
+    stateRef.current = { nodes, edges, name, dirty };
+  }, [nodes, edges, name, dirty]);
 
   const save = useCallback(async () => {
+    const revision = trackerRef.current.begin();
+    if (revision === null) return;
     const current = stateRef.current;
     setSaving(true);
     try {
@@ -227,9 +241,13 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
           data: serialize(current.nodes, current.edges),
         }),
       });
-      if (res.ok) setDirty(false);
-      else setToast("Não foi possível salvar o diagrama.");
+      if (res.ok) setDirty(!trackerRef.current.complete(revision));
+      else {
+        trackerRef.current.fail();
+        setToast("Não foi possível salvar o diagrama.");
+      }
     } catch {
+      trackerRef.current.fail();
       setToast("Não foi possível salvar o diagrama.");
     } finally {
       setSaving(false);
@@ -237,7 +255,7 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
   }, [diagram.id]);
 
   const saveRef = useRef(save);
-  saveRef.current = save;
+  useEffect(() => { saveRef.current = save; }, [save]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -276,18 +294,21 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
 
   const handleExport = useCallback(async () => {
     setExporting(true);
-    const err = await exportDiagramToPdf(
-      stateRef.current.name,
-      stateRef.current.nodes,
-    );
-    if (err) setToast(err);
-    setExporting(false);
-  }, []);
+    try {
+      const current = stateRef.current;
+      const err = await exportDiagramToPdf(current.name, current.nodes, getNodesBounds(current.nodes));
+      if (err) setToast(err);
+    } catch {
+      setToast("Não foi possível exportar o PDF. Tente novamente.");
+    } finally {
+      setExporting(false);
+    }
+  }, [getNodesBounds]);
 
   const handleName = useCallback((value: string) => {
     setName(value);
-    setDirty(true);
-  }, []);
+    markDirty();
+  }, [markDirty]);
 
   const selectedNode = useMemo(
     () => nodes.find((n) => n.id === selectedNodeId) ?? null,
@@ -299,7 +320,7 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
   );
 
   return (
-    <div className="flex h-screen flex-col bg-bg">
+    <div className="flex h-dvh min-h-0 flex-col overflow-hidden bg-bg">
       <MarkerDefs />
       <Toolbar
         name={name}
@@ -311,9 +332,9 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
         onSave={() => saveRef.current()}
         onExport={handleExport}
       />
-      <div className="flex flex-1 overflow-hidden">
-        <Palette diagramType={diagram.type} />
-        <div className="relative flex-1">
+      <div className="relative flex min-h-0 flex-1 flex-col overflow-hidden lg:flex-row">
+        <Palette diagramType={diagram.type} onAdd={onAddNode} />
+        <div className="relative min-h-0 min-w-0 flex-1" data-testid="diagram-canvas">
           <Canvas
             nodes={nodes}
             edges={edges}
@@ -331,6 +352,10 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
             </div>
           )}
         </div>
+        <button type="button" onClick={() => setPropertiesOpen(!propertiesOpen)} aria-expanded={propertiesOpen} className="absolute bottom-3 right-3 z-20 rounded-lg border border-outline-variant bg-surface px-3 py-2 text-sm lg:hidden">
+          {propertiesOpen ? "Fechar propriedades" : "Propriedades"}
+        </button>
+        <div className={`${propertiesOpen ? "flex" : "hidden"} absolute bottom-14 right-2 top-28 z-20 max-w-[calc(100%-1rem)] overflow-y-auto rounded-lg shadow-xl lg:static lg:flex lg:max-w-none lg:rounded-none lg:shadow-none`}>
         <PropertiesPanel
           selectedNode={selectedNode}
           selectedEdge={selectedEdge}
@@ -341,6 +366,7 @@ function EditorInner({ diagram }: { diagram: EditorDiagram }) {
           onUpdateNode={onUpdateNode}
           onUpdateEdge={onUpdateEdge}
         />
+        </div>
       </div>
     </div>
   );

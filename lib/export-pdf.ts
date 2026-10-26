@@ -1,4 +1,4 @@
-import { getNodesBounds, getViewportForBounds, type Node } from "@xyflow/react";
+import { getViewportForBounds, type Node, type Rect } from "@xyflow/react";
 import { toPng } from "html-to-image";
 import { jsPDF } from "jspdf";
 
@@ -12,6 +12,7 @@ const CAPTURE_H = 1000;
 export async function exportDiagramToPdf(
   name: string,
   nodes: Node[],
+  bounds: Rect,
 ): Promise<string | null> {
   if (nodes.length === 0) {
     return "Adicione elementos ao diagrama antes de exportar.";
@@ -24,7 +25,6 @@ export async function exportDiagramToPdf(
     return "Não foi possível localizar o canvas.";
   }
 
-  const bounds = getNodesBounds(nodes);
   const transform = getViewportForBounds(
     bounds,
     CAPTURE_W,

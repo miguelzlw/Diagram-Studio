@@ -21,34 +21,38 @@ export default function RegisterPage() {
     setError("");
     setLoading(true);
 
-    const res = await fetch("/api/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username: username.trim(), password }),
+      });
 
-    if (!res.ok) {
-      const data = await res.json().catch(() => ({}));
-      setError(data.error ?? "Não foi possível criar a conta.");
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setError(data.error ?? "Não foi possível criar a conta.");
+
+        return;
+      }
+
+      const signInRes = await signIn("credentials", {
+        username: username.trim(),
+        password,
+        redirect: false,
+      });
+
+      if (signInRes?.error) {
+        setError("Conta criada, mas o login falhou. Tente entrar manualmente.");
+        return;
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch {
+      setError("Não foi possível conectar. Verifique sua conexão e tente novamente.");
+    } finally {
       setLoading(false);
-      return;
     }
-
-    const signInRes = await signIn("credentials", {
-      username,
-      password,
-      redirect: false,
-    });
-
-    setLoading(false);
-
-    if (signInRes?.error) {
-      setError("Conta criada, mas o login falhou. Tente entrar manualmente.");
-      return;
-    }
-
-    router.push("/dashboard");
-    router.refresh();
   }
 
   return (

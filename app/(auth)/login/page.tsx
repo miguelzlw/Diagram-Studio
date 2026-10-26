@@ -21,21 +21,25 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
 
-    const res = await signIn("credentials", {
-      username,
-      password,
-      redirect: false,
-    });
+    try {
+      const res = await signIn("credentials", {
+        username: username.trim(),
+        password,
+        redirect: false,
+      });
 
-    setLoading(false);
+      if (res?.error) {
+        setError("Usuário ou senha incorretos.");
+        return;
+      }
 
-    if (res?.error) {
-      setError("Usuário ou senha incorretos.");
-      return;
+      router.push("/dashboard");
+      router.refresh();
+    } catch {
+      setError("Não foi possível conectar. Verifique sua conexão e tente novamente.");
+    } finally {
+      setLoading(false);
     }
-
-    router.push("/dashboard");
-    router.refresh();
   }
 
   return (

@@ -1,30 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useIsDark } from "@/lib/use-dark";
 import { IconSun, IconMoon } from "@tabler/icons-react";
 
 export function ThemeToggle() {
-  const [dark, setDark] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setDark(document.documentElement.classList.contains("dark"));
-    setMounted(true);
-  }, []);
+  const dark = useIsDark();
 
   function toggle() {
     const next = !dark;
-    setDark(next);
     document.documentElement.classList.toggle("dark", next);
     try {
       localStorage.setItem("theme", next ? "dark" : "light");
     } catch {
       /* localStorage indisponível */
     }
-  }
-
-  if (!mounted) {
-    return <div className="h-8 w-8" aria-hidden />;
   }
 
   return (

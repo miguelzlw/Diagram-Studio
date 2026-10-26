@@ -16,20 +16,25 @@ export function TypeWizard() {
     setCreatingId(typeId);
     setError("");
 
-    const res = await fetch("/api/diagrams", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: typeId }),
-    });
+    try {
+      const res = await fetch("/api/diagrams", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: typeId }),
+      });
 
-    if (!res.ok) {
-      setError("Não foi possível criar o diagrama. Tente novamente.");
+      if (!res.ok) {
+        setError("Não foi possível criar o diagrama. Tente novamente.");
+        setCreatingId(null);
+        return;
+      }
+
+      const diagram = await res.json();
+      router.push(`/diagrams/${diagram.id}`);
+    } catch {
+      setError("Não foi possível criar o diagrama. Verifique sua conexão e tente novamente.");
       setCreatingId(null);
-      return;
     }
-
-    const diagram = await res.json();
-    router.push(`/diagrams/${diagram.id}`);
   }
 
   return (

@@ -57,13 +57,19 @@ export function DashboardGrid({
       return;
     }
     setDeletingId(item.id);
-    const res = await fetch(`/api/diagrams/${item.id}`, { method: "DELETE" });
-    if (res.ok) {
-      setItems((prev) => prev.filter((d) => d.id !== item.id));
-    } else {
-      window.alert("Não foi possível excluir o diagrama.");
+    try {
+      const res = await fetch(`/api/diagrams/${item.id}`, { method: "DELETE" });
+      if (res.ok) {
+        setItems((prev) => prev.filter((d) => d.id !== item.id));
+        setFilter("all");
+      } else {
+        window.alert("Não foi possível excluir o diagrama.");
+      }
+    } catch {
+      window.alert("Não foi possível excluir o diagrama. Verifique sua conexão.");
+    } finally {
+      setDeletingId(null);
     }
-    setDeletingId(null);
   }
 
   const featured = items[0];

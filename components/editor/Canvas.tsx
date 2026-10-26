@@ -104,6 +104,7 @@ export function Canvas({
       />
       <Controls />
       <MiniMap
+        className="!hidden sm:!block"
         pannable
         zoomable
         position="top-right"

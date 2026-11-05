@@ -1,0 +1,3 @@
+## 2026-05-22 - Project only required columns when querying models with large serialized data blobs
+**Learning:** In Prisma + PostgreSQL, models storing full graph/canvas state (such as `Diagram.data`) store large serialized JSON strings (typically 20-50KB+ per record) out-of-line in Postgres TOAST. A default `findMany` fetches all columns, forcing PostgreSQL to retrieve and decompress TOAST chunks for every diagram, saturating network bandwidth and memory for listing pages like `/dashboard`.
+**Action:** Always specify explicit `select` fields on list views or summary endpoints to exclude heavy data/JSON columns unless the graph editor itself is being rendered.

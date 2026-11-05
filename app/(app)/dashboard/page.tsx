@@ -6,9 +6,19 @@ import { DashboardGrid } from "@/components/DashboardGrid";
 export default async function DashboardPage() {
   const session = await auth();
 
+  // Optimization (⚡ Bolt): Project only the fields needed by DashboardGrid.
+  // Omitting the heavy `data` column (diagram JSON containing nodes/edges)
+  // avoids querying Postgres TOAST tables, drastically reduces network payload
+  // from the database, and saves server memory and serialization overhead.
   const diagrams = await prisma.diagram.findMany({
     where: { userId: session!.user.id },
     orderBy: { updatedAt: "desc" },
+    select: {
+      id: true,
+      name: true,
+      type: true,
+      updatedAt: true,
+    },
   });
 
   const items = diagrams.map((d) => ({
